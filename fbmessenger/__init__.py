@@ -72,6 +72,7 @@ class MessengerClient(object):
             json=body,
             timeout=timeout
         )
+        r.raise_for_status()
         return r.json()
 
     def send_action(self, sender_action, entry, timeout=None):
