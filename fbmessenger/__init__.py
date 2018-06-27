@@ -72,6 +72,10 @@ class MessengerClient(object):
             json=body,
             timeout=timeout
         )
+        if r.status_code != 200:
+            logger.warn("Got a bad response from rasa core :( Status: {} "
+                        "Response: {}".format(r.status_code,
+                                              r.text))
         r.raise_for_status()
         return r.json()
 
