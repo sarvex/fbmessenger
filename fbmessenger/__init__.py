@@ -46,8 +46,7 @@ class MessengerClient(object):
     def send(self, payload, entry, messaging_type, notification_type=None,
              timeout=None):
         if messaging_type not in self.MESSAGING_TYPES:
-            raise ValueError(
-                '`{}` is not a valid `messaging_type`'.format(messaging_type))
+            raise ValueError(f'`{messaging_type}` is not a valid `messaging_type`')
 
         body = {
             'messaging_type': messaging_type,
@@ -59,9 +58,7 @@ class MessengerClient(object):
 
         if notification_type:
             if notification_type not in self.NOTIFICATION_TYPES:
-                raise ValueError(
-                    '`{}` is not a valid `notification_type`'.format(
-                        notification_type))
+                raise ValueError(f'`{notification_type}` is not a valid `notification_type`')
             body['notification_type'] = notification_type
 
         r = self.session.post(
@@ -73,9 +70,9 @@ class MessengerClient(object):
             timeout=timeout
         )
         if r.status_code != 200:
-            logger.warn("Got a bad response from rasa core :( Status: {} "
-                        "Response: {}".format(r.status_code,
-                                              r.text))
+            logger.warn(
+                f"Got a bad response from rasa core :( Status: {r.status_code} Response: {r.text}"
+            )
         r.raise_for_status()
         return r.json()
 

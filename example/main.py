@@ -18,7 +18,7 @@ from fbmessenger.thread_settings import (
 def get_button(ratio):
     return Button(
         button_type='web_url',
-        title='facebook {}'.format(ratio),
+        title=f'facebook {ratio}',
         url='https://facebook.com/',
         webview_height_ratio=ratio,
     )
@@ -35,21 +35,21 @@ def get_element(btn):
 
 
 def process_message(message):
-    app.logger.debug('Message received: {}'.format(message))
+    app.logger.debug(f'Message received: {message}')
 
-    if 'attachments' in message['message']:
-        if message['message']['attachments'][0]['type'] == 'location':
-            app.logger.debug('Location received')
-            response = Text(text='{}: lat: {}, long: {}'.format(
-                message['message']['attachments'][0]['title'],
-                message['message']['attachments'][0]['payload']['coordinates']['lat'],
-                message['message']['attachments'][0]['payload']['coordinates']['long']
-            ))
-            return response.to_dict()
+    if (
+        'attachments' in message['message']
+        and message['message']['attachments'][0]['type'] == 'location'
+    ):
+        app.logger.debug('Location received')
+        response = Text(
+            text=f"{message['message']['attachments'][0]['title']}: lat: {message['message']['attachments'][0]['payload']['coordinates']['lat']}, long: {message['message']['attachments'][0]['payload']['coordinates']['long']}"
+        )
+        return response.to_dict()
 
     if 'text' in message['message']:
         msg = message['message']['text'].lower()
-        response = Text(text='Sorry didn\'t understand that: {}'.format(msg))
+        response = Text(text=f"Sorry didn\'t understand that: {msg}")
         if 'text' in msg:
             response = Text(text='This is an example text message.')
         if 'image' in msg:
@@ -62,10 +62,7 @@ def process_message(message):
             qrs = quick_replies.QuickReplies(quick_replies=[qr1, qr2])
             response = Text(text='This is an example text message.', quick_replies=qrs)
         if 'payload' in msg:
-            txt = 'User clicked {}, button payload is {}'.format(
-                msg,
-                message['message']['quick_reply']['payload']
-            )
+            txt = f"User clicked {msg}, button payload is {message['message']['quick_reply']['payload']}"
             response = Text(text=txt)
         if 'webview-compact' in msg:
             btn = get_button(ratio='compact')
@@ -91,7 +88,7 @@ class Messenger(BaseMessenger):
     def message(self, message):
         action = process_message(message)
         res = self.send(action, 'RESPONSE')
-        app.logger.debug('Response: {}'.format(res))
+        app.logger.debug(f'Response: {res}')
 
     def delivery(self, message):
         pass
@@ -139,7 +136,7 @@ class Messenger(BaseMessenger):
         ])
 
         res = self.set_messenger_profile(persistent_menu.to_dict())
-        app.logger.debug('Response: {}'.format(res))
+        app.logger.debug(f'Response: {res}')
 
 
 app = Flask(__name__)

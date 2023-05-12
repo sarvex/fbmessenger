@@ -53,11 +53,13 @@ class ElementMixin(object):
 
     def to_dict(self):
         if self.MIN_ELEMENTS and (not self.elements or len(self.elements) < self.MIN_ELEMENTS):
-            raise ValueError('At least {} elements are required.'.format(self.MIN_ELEMENTS))
+            raise ValueError(f'At least {self.MIN_ELEMENTS} elements are required.')
 
         if self.elements:
             if len(self.elements) > self.MAX_ELEMENTS:
-                raise ValueError('You cannot have more than {} elements in the template.'.format(self.MAX_ELEMENTS))
+                raise ValueError(
+                    f'You cannot have more than {self.MAX_ELEMENTS} elements in the template.'
+                )
 
             self._d['attachment']['payload']['elements'] = [
                 element.to_dict() for element in self.elements
@@ -91,11 +93,13 @@ class ButtonMixin(object):
 
     def to_dict(self):
         if self.MIN_BUTTONS and (not self.buttons or len(self.buttons) < self.MIN_BUTTONS):
-            raise ValueError('At least {} buttons are required.'.format(self.MIN_BUTTONS))
+            raise ValueError(f'At least {self.MIN_BUTTONS} buttons are required.')
 
         if self.buttons:
             if len(self.buttons) > self.MAX_BUTTONS:
-                raise ValueError('You cannot have more than {} buttons in the template.'.format(self.MAX_BUTTONS))
+                raise ValueError(
+                    f'You cannot have more than {self.MAX_BUTTONS} buttons in the template.'
+                )
 
             self._d['attachment']['payload']['buttons'] = [
                 button.to_dict() for button in self.buttons

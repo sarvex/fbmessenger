@@ -52,7 +52,10 @@ class PersistentMenuItem(object):
         if item_type == 'web_url':
             if url is None:
                 raise ValueError('`url` must be supplied for `web_url` type menu items.')
-            if webview_height_ratio and not webview_height_ratio in WEBVIEW_HEIGHT_RATIOS:
+            if (
+                webview_height_ratio
+                and webview_height_ratio not in WEBVIEW_HEIGHT_RATIOS
+            ):
                 raise ValueError('Invalid webview_height_ratio provided.')
         else:
             if messenger_extensions is not None:
