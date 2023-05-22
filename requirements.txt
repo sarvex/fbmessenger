@@ -11,7 +11,7 @@ pyandoc==0.2.0
 pytest==3.6.2
 pytest-catchlog==1.2.2
 pytest-cov==2.5.1
-requests==2.19.1
+requests==2.31.0
 requests-toolbelt==0.8.0
 six==1.11.0
 tqdm==4.23.4
